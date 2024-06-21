@@ -4,9 +4,17 @@ import { Dispatch, SetStateAction } from "react";
 
 type Context = {
   addIssue: boolean;
-  setAddIssue: any;
+  setAddIssue: React.Dispatch<React.SetStateAction<boolean>>;
   openIssueForm: () => void;
   colors: string[];
+  prevPage: () => void;
+  nextPage: () => void;
+  changePage: (id: number) => void;
+  sortHandler: (label: string) => void;
+  currentPage: number;
+  numbers: number[];
+  recordsPerPage: number;
+  records: any[];
   labels: string[];
   owners: string[];
   statuses: string[];
@@ -18,161 +26,176 @@ type Context = {
     status: string;
     owner: string;
   }[];
-  // setIssues: Dispatch<
-  //   SetStateAction<
-  //     {
-  //       title: string;
-  //       date: Date;
-  //       label: string;
-  //       status: string;
-  //       owner: string;
-  //     }[]
-  //   >
-  // >;
 };
 
-let labels: string[] = [
+const labels: string[] = [
   "bug",
   "feature",
   "enhancement",
   "question",
   "help",
-  "wanted",
   "wontfix",
   "duplicate",
-];
-
-let colors: string[] = [
-  "red",
-  "green",
-  "blue",
-  "yellow",
-  "purple",
-  "pink",
-  "gray",
-  "black",
 ];
 
 const owners = ["Alex", "Bob", "Tanner", "Bono", "Tyler"];
 const statuses = ["Backlog", "In status", "Todo", "Done", "Cancelled"];
 
-const randomNum = Math.floor(Math.random() * labels.length);
-
-
-
 const customIssues = [
   {
-    title: "It would seem this is caused by user error.",
+    title: "Button is not working properly when I'm on a boat",
+    comment: "It would seem this is caused by user error.",
     date: new Date(),
     label: "bug",
     status: "Backlog",
     owner: "Tyler",
   },
   {
-    title: "This is a really big deal for me.",
+    title: "macOS looks weird all the time",
+    comment: "This is a really big deal for me.",
     date: new Date(),
     label: "feature",
     status: "In status",
     owner: "Bob",
   },
   {
-    title: "I'm not sure how to fix it.",
+    title: "Windows is not working as expected when I'm on a plane",
+    comment: "I'm not sure how to fix it.",
     date: new Date(),
     label: "duplicate",
     status: "Backlog",
     owner: "Alex",
   },
   {
-    title: "It would seem this is caused by user error.",
+    title:
+      "Styling is actually working fine. I just wanted to let you know you're great when I'm on a plane",
+    comment: "It would seem this is caused by user error.",
     date: new Date(),
     label: "bug",
     status: "Backlog",
     owner: "Tyler",
   },
   {
-    title: "This is a really big deal for me.",
+    title: "The App looks weird when I'm with Taylor Swift",
+    comment: "This is a really big deal for me.",
     date: new Date(),
     label: "feature",
     status: "In status",
     owner: "Bob",
   },
   {
-    title: "I'm not sure how to fix it.",
+    title: "React looks weird when I'm on a plane",
+    comment: "I'm not sure how to fix it.",
     date: new Date(),
     label: "duplicate",
     status: "Backlog",
     owner: "Alex",
   },
   {
-    title: "I'm on it. I'll get back to you when I'm done.",
+    title: "Styling seems to struggle when I rage click it",
+    comment: "I'm on it. I'll get back to you when I'm done.",
     date: new Date(),
     label: "enhancement",
     status: "In status",
     owner: "Bob",
   },
   {
-    title: "I'm working on it.",
+    title: "Windows won't run right on Tuesdays",
+    comment: "I'm working on it.",
     date: new Date(),
     label: "question",
     status: "Todo",
     owner: "Tanner",
   },
   {
-    title: "It would seem this is caused by user error.",
+    title: "Dependencies makes my computer run slow when I'm with Taylor Swift",
+    comment: "It would seem this is caused by user error.",
     date: new Date(),
     label: "help",
     status: "Done",
     owner: "Bono",
   },
   {
-    title: "Never mind, I figured out how to fix this",
+    title:
+      "JavaScript cannot read property 'length' of undefined when I'm on a train",
+    comment: "Never mind, I figured out how to fix this",
     date: new Date(),
-    label: "wanted",
+    label: "help",
     status: "Cancelled",
     owner: "Tyler",
   },
   {
-    title: "What is the status of this issue?",
+    title: "The App makes my computer run slow when I'm on a bike",
+    comment: "What is the status of this issue?",
     date: new Date(),
     label: "wontfix",
     status: "In status",
     owner: "Alex",
   },
   {
-    title: "This is a really big deal for me.",
+    title: "Button is not working as expected when I'm on a plane",
+    comment: "This is a really big deal for me.",
     date: new Date(),
     label: "duplicate",
     status: "Todo",
     owner: "Bob",
   },
   {
-    title: "This is a really big deal for me.",
+    title: "JQuery throws an error whenever I try to demo it",
+    comment: "Never mind, I figured out how to fix this",
     date: new Date(),
-    label: "duplicate",
+    label: "wontflix",
     status: "Cancelled",
-    owner: "Tanner",
+    owner: "Tyler",
   },
 ];
 
-console.log(customIssues);
-// function addCustomIssues(title: string, comment: string) {
-//   setIssues([
-//     ...issues,
-//     {
-//       title: title,
-//       comment: comment,
-//       date: new Date(),
-//       label: labels[randomNum],
-//       status: statuses[randomNum],
-//       owner: owners[randomNum],
-//     },
-//   ]);
-// }
-const AppContext = createContext<Context>();
+let colors: string[] = [
+  "#FF0000",
+  "#0000FF",
+  "#00ffff",
+  "#ffa500",
+  "#00ff00",
+  "#ffffff",
+  "#663399",
+];
+
+const AppContext = createContext<Context>({} as Context);
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [addIssue, setAddIssue] = useState(false);
   const [issues, setIssues] = useState(customIssues);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = issues.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(customIssues.length / recordsPerPage);
+  const numbers = Array.from({ length: nPage }, (_, i) => i + 1);
+
+  function sortHandler(label: string) {
+    const sortedIssues = [...issues].sort((a, b) => {
+      return a.label === label ? -1 : 1;
+    });
+    setCurrentPage(1);
+    setIssues(sortedIssues);
+  }
+
+  const prevPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== nPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const changePage = (id: number) => {
+    setCurrentPage(id);
+  };
 
   function openIssueForm() {
     setAddIssue(true);
@@ -181,6 +204,13 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   return (
     <AppContext.Provider
       value={{
+        prevPage,
+        nextPage,
+        changePage,
+        currentPage,
+        numbers,
+        records,
+        recordsPerPage,
         addIssue,
         setAddIssue,
         openIssueForm,
@@ -190,8 +220,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         statuses,
         customIssues,
         issues,
-        // setIssues,
-        // addCustomIssues,
+        sortHandler,
       }}
     >
       {children}

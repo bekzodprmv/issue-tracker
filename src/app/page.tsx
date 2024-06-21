@@ -1,12 +1,11 @@
 "use client";
-import AddIssue from "./add/page";
-import IssueList from "./IssueLists";
 import React, { useContext, useState } from "react";
 import SearchIssues from "./SearchIssues";
-import { cx } from "../utils";
 import Link from "next/link";
 import { useAppContext } from "@/context";
 import IssueLists from "./IssueLists";
+import Pagination from "./Pagination";
+import Labels from "./Labels";
 
 export default function Home() {
   const { openIssueForm, colors, labels } = useAppContext();
@@ -22,33 +21,23 @@ export default function Home() {
             <h2>Labels</h2>
             <ul className=" mt-3 flex flex-wrap gap-0.5 gap-y-2">
               {labels.map((label, index) => (
-                <li
+                <Labels
                   key={index}
-                  className="inline border rounded-2xl p-1 py-0.5 text-sm mx-0.5 font-semibold"
-                  style={{ borderColor: colors[index], color: colors[index] }}
-                >
-                  {label}
-                </li>
+                  label={label}
+                  index={index}
+                  colors={colors}
+                />
               ))}
             </ul>
           </div>
           <SearchIssues />
           <IssueLists />
-          <Link
-            href="./add"
-            className="col-end-4 pointer self-start  bg-yellow-300 text-gray-900 rounded-md p-2 text-center mt-2 font-semibold"
-            onClick={openIssueForm}
-          >
+          <Link href="./add" className="btn--big" onClick={openIssueForm}>
             Add Issue
           </Link>
+          <Pagination />
         </div>
       </div>
     </>
   );
 }
-
-// \<AddIssue
-// issues={issues}
-// setAddIssue={setAddIssue}
-// setIssues={setIssues}
-// />

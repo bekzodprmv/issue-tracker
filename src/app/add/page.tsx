@@ -24,17 +24,7 @@ export default function AddIssue() {
     event.preventDefault();
     setTitle("");
     setComment("");
-    // setIssues([
-    //   ...issues,
-    //   {
-    //     title: title,
-    //     comment: comment,
-    //     date: new Date(),
-    //     label: labels[randomNum],
-    //     status: statuses[randomNum],
-    //     owner: owners[randomNum],
-    //   },
-    // ]);
+
     customIssues.push({
       title: title,
       // comment: comment,
@@ -83,13 +73,22 @@ export default function AddIssue() {
             className="border text-2xl font-medium rounded-md border-gray-500 bg-transparent w-full p-4 mt-4"
           />
         </div>
-        <button
-          className="pointer self-end  bg-yellow-300 text-gray-900 rounded-md py-3 px-5 text-2xl font-medium mt-2"
-          type="submit"
-        >
+        <button className="btn--big self-end" type="submit">
           Add Issue
         </button>
       </form>
     </div>
   );
 }
+
+// setIssues([
+//   ...issues,
+//   {
+//     title: title,
+//     comment: comment,
+//     date: new Date(),
+//     label: labels[randomNum],
+//     status: statuses[randomNum],
+//     owner: owners[randomNum],
+//   },
+// ]);
