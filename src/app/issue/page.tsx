@@ -1,15 +1,14 @@
 "use client";
 import React from "react";
+import { BsGearFill } from "react-icons/bs";
 import { useAppContext } from "@/context";
-import IssueLists from "../IssueLists";
-import Labels from "../Labels";
 import Status from "../Status";
 import Link from "next/link";
-import { BsGearFill } from "react-icons/bs";
-import { SiElsevier } from "react-icons/si";
+import Image from "next/image";
 
 export default function Home() {
-  const { selectedIssue, colors, labels, issues } = useAppContext();
+  const { selectedIssue, colors, issues } = useAppContext();
+
   let color: string = "";
   if (selectedIssue.label === "bug") {
     color = colors[0];
@@ -36,10 +35,13 @@ export default function Home() {
         <h1 className="text-center mb-3 text-4xl font-semibold my-24">
           Issue Tracker
         </h1>
-        <div className="mb-3 border-b-[1px] pb-4">
+        <div className="mb-4 border-b-[1px] pb-4">
           <h2 className="text-2xl font-semibold mb-3">{selectedIssue.title}</h2>
           <div className="flex items-center gap-3 text-[#aaaaaa]">
-            <p className="text-sm py-2 px-3 text-white rounded-3xl bg-[#008000]">
+            <p
+              className="text-sm py-2 px-3 text-white rounded-3xl"
+              style={{ backgroundColor: color }}
+            >
               {selectedIssue.status}
             </p>
             <p>
@@ -55,11 +57,24 @@ export default function Home() {
             {issues
               .filter((issue) => issue.status === selectedIssue.status)
               .map((issue, index) => (
-                <div key={index} className="border border-gray-400 mb-3">
-                  <h2 className="p-2 bg-[#111] border-b-[1px] border-b-gray-400">
-                    <strong> {issue.owner}</strong> commented 1 hour ago
-                  </h2>
-                  <p className="px-2 py-3"> {issue.comment}</p>
+                <div key={index} className="flex items-center gap-4">
+                  <Image
+                    src={issue.imgLink}
+                    alt="avatar"
+                    width={50}
+                    height={50}
+                    className="rounded-full self-start"
+                  />
+
+                  <div
+                    key={index}
+                    className="border w-full border-gray-400 mb-3"
+                  >
+                    <h2 className="p-2 bg-[#111] border-b-[1px] border-b-gray-400">
+                      <strong> {issue.owner}</strong> commented 1 hour ago
+                    </h2>
+                    <p className="px-2 py-3"> {issue.comment}</p>
+                  </div>
                 </div>
               ))}
           </div>

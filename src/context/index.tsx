@@ -15,6 +15,7 @@ type CustomIssues = {
   label: string;
   status: string;
   owner: string;
+  imgLink?: string | any;
 };
 
 type Context = {
@@ -59,6 +60,13 @@ const labels: string[] = [
   "duplicate",
 ];
 
+const images = [
+  "https://res.cloudinary.com/uidotdev/image/twitter_name/ralex1993",
+  "https://res.cloudinary.com/uidotdev/image/twitter_name/tannerlinsley",
+  "https://res.cloudinary.com/uidotdev/image/twitter_name/tylermcginnis",
+  "https://res.cloudinary.com/uidotdev/image/twitter_name/u2",
+];
+
 const owners = ["Alex", "Bob", "Tanner", "Bono", "Tyler"];
 const statuses = ["Backlog", "In progress", "Todo", "Done", "Cancelled"];
 
@@ -69,7 +77,8 @@ const customIssues = [
     date: new Date(),
     label: "bug",
     status: "Backlog",
-    owner: "Tyler",
+    owner: "Mylow",
+    imgLink: "https://res.cloudinary.com/uidotdev/image/twitter_name/ralex1993",
   },
   {
     title: "macOS looks weird all the time",
@@ -77,7 +86,9 @@ const customIssues = [
     date: new Date(),
     label: "feature",
     status: "In progress",
-    owner: "Bob",
+    owner: "Jimmy",
+    imgLink:
+      "https://res.cloudinary.com/uidotdev/image/twitter_name/tannerlinsley",
   },
   {
     title: "Windows is not working as expected when I'm on a plane",
@@ -85,7 +96,9 @@ const customIssues = [
     date: new Date(),
     label: "duplicate",
     status: "Backlog",
-    owner: "Alex",
+    owner: "Scott",
+    imgLink:
+      "https://res.cloudinary.com/uidotdev/image/twitter_name/tylermcginnis",
   },
   {
     title:
@@ -94,7 +107,8 @@ const customIssues = [
     date: new Date(),
     label: "bug",
     status: "Backlog",
-    owner: "Tyler",
+    owner: "Edward",
+    imgLink: "https://res.cloudinary.com/uidotdev/image/twitter_name/u2",
   },
   {
     title: "The App looks weird when I'm with Taylor Swift",
@@ -102,7 +116,8 @@ const customIssues = [
     date: new Date(),
     label: "feature",
     status: "In progress",
-    owner: "Bob",
+    owner: "Maximilian",
+    imgLink: "https://res.cloudinary.com/uidotdev/image/twitter_name/ralex1993",
   },
   {
     title: "React looks weird when I'm on a plane",
@@ -110,7 +125,9 @@ const customIssues = [
     date: new Date(),
     label: "duplicate",
     status: "Backlog",
-    owner: "Alex",
+    owner: "Jhonas",
+    imgLink:
+      "https://res.cloudinary.com/uidotdev/image/twitter_name/tannerlinsley",
   },
   {
     title: "Styling seems to struggle when I rage click it",
@@ -118,7 +135,9 @@ const customIssues = [
     date: new Date(),
     label: "enhancement",
     status: "In progress",
-    owner: "Bob",
+    owner: "Mark",
+    imgLink:
+      "https://res.cloudinary.com/uidotdev/image/twitter_name/tylermcginnis",
   },
   {
     title: "Windows won't run right on Tuesdays",
@@ -127,6 +146,7 @@ const customIssues = [
     label: "question",
     status: "Todo",
     owner: "Tanner",
+    imgLink: "https://res.cloudinary.com/uidotdev/image/twitter_name/u2",
   },
   {
     title: "Dependencies makes my computer run slow when I'm with Taylor Swift",
@@ -135,6 +155,7 @@ const customIssues = [
     label: "help",
     status: "Done",
     owner: "Bono",
+    imgLink: "https://res.cloudinary.com/uidotdev/image/twitter_name/ralex1993",
   },
   {
     title:
@@ -144,6 +165,8 @@ const customIssues = [
     label: "help",
     status: "Cancelled",
     owner: "Tyler",
+    imgLink:
+      "https://res.cloudinary.com/uidotdev/image/twitter_name/tannerlinsley",
   },
   {
     title: "The App makes my computer run slow when I'm on a bike",
@@ -152,6 +175,8 @@ const customIssues = [
     label: "wontfix",
     status: "In progress",
     owner: "Alex",
+    imgLink:
+      "https://res.cloudinary.com/uidotdev/image/twitter_name/tylermcginnis",
   },
   {
     title: "Button is not working as expected when I'm on a plane",
@@ -160,6 +185,7 @@ const customIssues = [
     label: "duplicate",
     status: "Todo",
     owner: "Bob",
+    imgLink: "https://res.cloudinary.com/uidotdev/image/twitter_name/u2",
   },
   {
     title: "JQuery throws an error whenever I try to demo it",
@@ -167,7 +193,8 @@ const customIssues = [
     date: new Date(),
     label: "wontflix",
     status: "Cancelled",
-    owner: "Tyler",
+    owner: "John",
+    imgLink: "https://res.cloudinary.com/uidotdev/image/twitter_name/u2",
   },
 ];
 
@@ -236,6 +263,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         label: labels[randomNum(labels)],
         status: statuses[randomNum(statuses)],
         owner: owners[randomNum(owners)],
+        imgLink: images[randomNum(images)],
       },
       ...issues,
     ]);

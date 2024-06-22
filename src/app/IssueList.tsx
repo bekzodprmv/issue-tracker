@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/navigation";
+import { PiWarningCircle } from "react-icons/pi";
+import Image from "next/image";
 
 type issueListProps = {
   issue: {
@@ -10,6 +12,7 @@ type issueListProps = {
     label: string;
     status: string;
     owner: string;
+    imgLink?: string | any;
   };
   index: number;
 };
@@ -59,7 +62,8 @@ export default function IssueList({ issue, index }: issueListProps) {
   }, []);
 
   return (
-    <li className="border hover:bg-[#ffffff1a]   border-gray-400 mb-5 py-3 px-5 rounded-sm">
+    <li className="border flex hover:bg-[#ffffff1a] gap-3 items-center border-gray-400 mb-5 py-3 px-5 rounded-sm">
+      <PiWarningCircle className="basis-6" size={24} color="green" />
       <div>
         <h2
           onClick={() => {
@@ -94,7 +98,13 @@ export default function IssueList({ issue, index }: issueListProps) {
           {issue.owner}
         </p>
       </div>
-      <div></div>
+      <Image
+        src={issue.imgLink}
+        alt="avatar"
+        width={50}
+        height={50}
+        className="rounded-full ml-auto"
+      />
     </li>
   );
 }
