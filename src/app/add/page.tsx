@@ -4,35 +4,29 @@ import React, { useState } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/navigation";
 
-// type addIssueProps = {
-//   setAddIssue: any;
-//   issues: { title: string; comment: string; date: Date }[];
-//   setIssues: React.Dispatch<
-//     React.SetStateAction<{ title: string; comment: string; date: Date }[]>
-//   >;
-// };
-
 export default function AddIssue() {
   const [title, setTitle] = useState<string>("");
   const [comment, setComment] = useState<string>("");
-  const { issues, labels, owners, statuses, customIssues } = useAppContext();
+  const { issues, labels, owners, statuses, randomNum, setIssues } =
+    useAppContext();
   const router = useRouter();
-
-  const randomNum = Math.floor(Math.random() * statuses.length);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTitle("");
     setComment("");
 
-    customIssues.push({
-      title: title,
-      // comment: comment,
-      date: new Date(),
-      label: labels[randomNum],
-      status: statuses[randomNum],
-      owner: owners[randomNum],
-    });
+    setIssues([
+      {
+        title,
+        comment,
+        date: new Date(),
+        label: labels[randomNum(labels)],
+        status: statuses[randomNum(statuses)],
+        owner: owners[randomNum(owners)],
+      },
+      ...issues,
+    ]);
     router.push(`./`);
     console.log({ issues });
   }

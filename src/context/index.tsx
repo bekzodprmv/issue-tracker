@@ -12,6 +12,7 @@ type Context = {
   changePage: (id: number) => void;
   labelSort: (label: string) => void;
   handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  randomNum: (option: string[]) => number;
   currentPage: number;
   numbers: number[];
   recordsPerPage: number;
@@ -23,6 +24,7 @@ type Context = {
   setIssues: Dispatch<SetStateAction<any[]>>;
   customIssues: {
     title: string;
+    comment: string;
     date: Date;
     label: string;
     status: string;
@@ -176,6 +178,10 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const nPage = Math.ceil(customIssues.length / recordsPerPage);
   const numbers = Array.from({ length: nPage }, (_, i) => i + 1);
 
+  function randomNum(option: string[]) {
+    return Math.floor(Math.random() * option.length);
+  }
+
   function labelSort(label: string) {
     const sortedIssues = [...issues].sort((a, b) => {
       return a.label === label ? -1 : 1;
@@ -235,6 +241,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         labelSort,
         handleSelectChange,
         setIssues,
+        randomNum,
       }}
     >
       {children}
