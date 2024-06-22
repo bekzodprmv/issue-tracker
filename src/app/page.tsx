@@ -12,8 +12,8 @@ export default function Home() {
   const { openIssueForm, colors, labels } = useAppContext();
 
   return (
-    <>
-      <div className="bg-black border-t-yellow-400 w-3/4 mx-auto ">
+    <div className="border-t-8 border-t-yellow-400 ">
+      <div className="bg-black w-3/4 mx-auto ">
         <h1 className="text-center mb-3 text-4xl font-semibold my-32">
           Issue tracker
         </h1>
@@ -47,6 +47,6 @@ export default function Home() {
           <Pagination />
         </div>
       </div>
-    </>
+    </div>
   );
 }

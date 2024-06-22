@@ -1,35 +1,50 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
-import { Dispatch, SetStateAction } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { useRouter } from "next/navigation";
+
+type CustomIssues = {
+  title: string;
+  comment: string;
+  date: Date;
+  label: string;
+  status: string;
+  owner: string;
+};
 
 type Context = {
+  text: string;
+  issues: any[];
   addIssue: boolean;
-  setAddIssue: React.Dispatch<React.SetStateAction<boolean>>;
-  openIssueForm: () => void;
   colors: string[];
-  prevPage: () => void;
-  nextPage: () => void;
-  changePage: (id: number) => void;
-  labelSort: (label: string) => void;
-  handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  randomNum: (option: string[]) => number;
-  currentPage: number;
   numbers: number[];
+  currentPage: number;
   recordsPerPage: number;
   records: any[];
   labels: string[];
   owners: string[];
   statuses: string[];
-  issues: any[];
+  customIssues: CustomIssues[];
+  setText: Dispatch<SetStateAction<string>>;
   setIssues: Dispatch<SetStateAction<any[]>>;
-  customIssues: {
-    title: string;
-    comment: string;
-    date: Date;
-    label: string;
-    status: string;
-    owner: string;
-  }[];
+  setAddIssue: React.Dispatch<React.SetStateAction<boolean>>;
+  title: string;
+  setTitle: Dispatch<SetStateAction<string>>;
+  comment: string;
+  setComment: Dispatch<SetStateAction<string>>;
+  prevPage: () => void;
+  nextPage: () => void;
+  openIssueForm: () => void;
+  changePage: (id: number) => void;
+  labelSort: (label: string) => void;
+  handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleAddSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  randomNum: (option: string[]) => number;
 };
 
 const labels: string[] = [
@@ -167,7 +182,11 @@ let colors: string[] = [
 const AppContext = createContext<Context>({} as Context);
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const [text, setText] = useState("");
   const [status, setStatus] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
   const [addIssue, setAddIssue] = useState(false);
   const [issues, setIssues] = useState(customIssues);
   const [currentPage, setCurrentPage] = useState(1);
@@ -175,7 +194,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const records = issues.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(customIssues.length / recordsPerPage);
+  const nPage = Math.ceil(issues.length / recordsPerPage);
   const numbers = Array.from({ length: nPage }, (_, i) => i + 1);
 
   function randomNum(option: string[]) {
@@ -197,6 +216,26 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     setCurrentPage(1);
     setStatus(e.target.value);
     setIssues(sortedIssues);
+  }
+
+  function handleAddSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setTitle("");
+    setComment("");
+
+    setIssues([
+      {
+        title,
+        comment,
+        date: new Date(),
+        label: labels[randomNum(labels)],
+        status: statuses[randomNum(statuses)],
+        owner: owners[randomNum(owners)],
+      },
+      ...issues,
+    ]);
+    router.push(`./`);
+    console.log({ issues });
   }
 
   const prevPage = () => {
@@ -226,6 +265,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         nextPage,
         changePage,
         currentPage,
+        handleSelectChange,
         numbers,
         records,
         recordsPerPage,
@@ -239,9 +279,15 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         customIssues,
         issues,
         labelSort,
-        handleSelectChange,
         setIssues,
         randomNum,
+        text,
+        setText,
+        title,
+        setTitle,
+        comment,
+        setComment,
+        handleAddSubmit,
       }}
     >
       {children}
