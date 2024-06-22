@@ -12,10 +12,10 @@ export default function Home() {
   const { openIssueForm, colors, labels } = useAppContext();
 
   return (
-    <div className="border-t-8 border-t-yellow-400 ">
+    <div className="border-t-[6px] border-t-yellow-400 ">
       <div className="bg-black w-3/4 mx-auto ">
         <h1 className="text-center mb-3 text-4xl font-semibold my-32">
-          Issue tracker
+          Issue Tracker
         </h1>
         <div className="grid grid-cols-3 auto-rows-auto gap-5 items-center gap-x-20">
           <div className="col-end-4 ">

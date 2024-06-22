@@ -14,7 +14,11 @@ export default function IssueLists() {
               return issue.title.toLowerCase().includes(text.toLowerCase());
             })
             .map((issue, index) => (
-              <IssueList key={index} issue={issue} index={index} />
+              <IssueList
+                key={index}
+                issue={issue}
+                index={index}
+              />
             ))}
         {text.trim().length === 0 &&
           records.map((issue, index) => (

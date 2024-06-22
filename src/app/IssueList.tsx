@@ -6,6 +6,7 @@ type issueListProps = {
   issue: {
     title: string;
     date: Date;
+    comment: string;
     label: string;
     status: string;
     owner: string;
@@ -15,7 +16,7 @@ type issueListProps = {
 
 export default function IssueList({ issue, index }: issueListProps) {
   const router = useRouter();
-  const { colors } = useAppContext();
+  const { colors, setSelectedIssue } = useAppContext();
   const [timeDiff, setTimeDiff] = useState({ time: 0, unit: "seconds" });
 
   let color: string = "";
@@ -58,14 +59,22 @@ export default function IssueList({ issue, index }: issueListProps) {
   }, []);
 
   return (
-    <li
-      onClick={() => {
-        router.push("/issue");
-      }}
-      className="border border-gray-400 mb-5 py-3 px-5 rounded-sm"
-    >
+    <li className="border hover:bg-[#ffffff1a]   border-gray-400 mb-5 py-3 px-5 rounded-sm">
       <div>
-        <h2 className="text-yellow-300 cursor-pointer text-lg font-semibold mr-2">
+        <h2
+          onClick={() => {
+            setSelectedIssue({
+              title: issue.title,
+              comment: issue.comment,
+              label: issue.label,
+              status: issue.status,
+              owner: issue.owner,
+              date: issue.date,
+            });
+            router.push("/issue");
+          }}
+          className="text-yellow-300 cursor-pointer text-lg font-semibold mr-2"
+        >
           {issue.title}
           <span
             className=" border rounded-2xl p-1 py-0.5 text-sm ml-3 font-semibold"

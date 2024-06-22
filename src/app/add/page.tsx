@@ -14,10 +14,10 @@ export default function AddIssue() {
 
   return (
     <div className="bg-black border-t-yellow-400 w-3/4 mx-auto  mt-16">
-      <Link href="./" className="text-yellow-300 underline text-xl">
+      <Link href="./" className="text-yellow-300 underline text-lg">
         Back to issue list
       </Link>
-      <h1 className="text-center m-14 text-4xl font-semibold">Issue tracker</h1>
+      <h1 className="text-center m-14 text-4xl font-semibold">Issue Tracker</h1>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <h2 className="text-4xl font-semibold mb-5">Add issue</h2>
         <div>

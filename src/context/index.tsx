@@ -37,6 +37,8 @@ type Context = {
   setTitle: Dispatch<SetStateAction<string>>;
   comment: string;
   setComment: Dispatch<SetStateAction<string>>;
+  selectedIssue: CustomIssues;
+  setSelectedIssue: Dispatch<SetStateAction<CustomIssues>>;
   prevPage: () => void;
   nextPage: () => void;
   openIssueForm: () => void;
@@ -189,6 +191,9 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [comment, setComment] = useState<string>("");
   const [addIssue, setAddIssue] = useState(false);
   const [issues, setIssues] = useState(customIssues);
+  const [selectedIssue, setSelectedIssue] = useState<CustomIssues>(
+    {} as CustomIssues
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
   const lastIndex = currentPage * recordsPerPage;
@@ -277,8 +282,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         owners,
         statuses,
         customIssues,
-        issues,
         labelSort,
+        issues,
         setIssues,
         randomNum,
         text,
@@ -288,6 +293,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         comment,
         setComment,
         handleAddSubmit,
+        selectedIssue,
+        setSelectedIssue,
       }}
     >
       {children}
