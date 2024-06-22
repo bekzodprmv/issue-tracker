@@ -18,7 +18,7 @@ export default function AddIssue() {
   const { issues, labels, owners, statuses, customIssues } = useAppContext();
   const router = useRouter();
 
-  const randomNum = Math.floor(Math.random() * labels.length);
+  const randomNum = Math.floor(Math.random() * statuses.length);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

@@ -8,11 +8,11 @@ type LabelsProps = {
 };
 
 export default function Labels({ label, index, colors }: LabelsProps) {
-  const { sortHandler, issues } = useAppContext();
+  const { labelSort, issues } = useAppContext();
   // console.log(label);
   return (
     <li
-      onClick={() => sortHandler(label)}
+      onClick={() => labelSort(label)}
       className="cursor-pointer inline border rounded-2xl p-1 py-0.5 text-sm mx-0.5 font-semibold"
       style={{ borderColor: colors[index], color: colors[index] }}
     >

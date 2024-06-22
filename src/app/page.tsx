@@ -6,6 +6,7 @@ import { useAppContext } from "@/context";
 import IssueLists from "./IssueLists";
 import Pagination from "./Pagination";
 import Labels from "./Labels";
+import Status from "./Status";
 
 export default function Home() {
   const { openIssueForm, colors, labels } = useAppContext();
@@ -32,9 +33,12 @@ export default function Home() {
           </div>
           <SearchIssues />
           <IssueLists />
-          <Link href="./add" className="btn--big" onClick={openIssueForm}>
-            Add Issue
-          </Link>
+          <div className="self-start">
+            <Status />
+            <Link href="./add" className="btn--big" onClick={openIssueForm}>
+              Add Issue
+            </Link>
+          </div>
           <Pagination />
         </div>
       </div>

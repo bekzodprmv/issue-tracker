@@ -10,7 +10,8 @@ type Context = {
   prevPage: () => void;
   nextPage: () => void;
   changePage: (id: number) => void;
-  sortHandler: (label: string) => void;
+  labelSort: (label: string) => void;
+  handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   currentPage: number;
   numbers: number[];
   recordsPerPage: number;
@@ -19,6 +20,7 @@ type Context = {
   owners: string[];
   statuses: string[];
   issues: any[];
+  setIssues: Dispatch<SetStateAction<any[]>>;
   customIssues: {
     title: string;
     date: Date;
@@ -39,7 +41,7 @@ const labels: string[] = [
 ];
 
 const owners = ["Alex", "Bob", "Tanner", "Bono", "Tyler"];
-const statuses = ["Backlog", "In status", "Todo", "Done", "Cancelled"];
+const statuses = ["Backlog", "In progress", "Todo", "Done", "Cancelled"];
 
 const customIssues = [
   {
@@ -55,7 +57,7 @@ const customIssues = [
     comment: "This is a really big deal for me.",
     date: new Date(),
     label: "feature",
-    status: "In status",
+    status: "In progress",
     owner: "Bob",
   },
   {
@@ -80,7 +82,7 @@ const customIssues = [
     comment: "This is a really big deal for me.",
     date: new Date(),
     label: "feature",
-    status: "In status",
+    status: "In progress",
     owner: "Bob",
   },
   {
@@ -96,7 +98,7 @@ const customIssues = [
     comment: "I'm on it. I'll get back to you when I'm done.",
     date: new Date(),
     label: "enhancement",
-    status: "In status",
+    status: "In progress",
     owner: "Bob",
   },
   {
@@ -129,7 +131,7 @@ const customIssues = [
     comment: "What is the status of this issue?",
     date: new Date(),
     label: "wontfix",
-    status: "In status",
+    status: "In progress",
     owner: "Alex",
   },
   {
@@ -163,6 +165,7 @@ let colors: string[] = [
 const AppContext = createContext<Context>({} as Context);
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
+  const [status, setStatus] = useState<string>("");
   const [addIssue, setAddIssue] = useState(false);
   const [issues, setIssues] = useState(customIssues);
   const [currentPage, setCurrentPage] = useState(1);
@@ -173,12 +176,21 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const nPage = Math.ceil(customIssues.length / recordsPerPage);
   const numbers = Array.from({ length: nPage }, (_, i) => i + 1);
 
-  function sortHandler(label: string) {
+  function labelSort(label: string) {
     const sortedIssues = [...issues].sort((a, b) => {
       return a.label === label ? -1 : 1;
     });
     setCurrentPage(1);
     setIssues(sortedIssues);
+  }
+
+  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const sortedIssues = [...issues].sort((a, b) => {
+      return a.status === e.target.value ? -1 : 1;
+    });
+    setCurrentPage(1);
+    setIssues(sortedIssues);
+    setStatus(e.target.value);
   }
 
   const prevPage = () => {
@@ -220,7 +232,9 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         statuses,
         customIssues,
         issues,
-        sortHandler,
+        labelSort,
+        handleSelectChange,
+        setIssues,
       }}
     >
       {children}
