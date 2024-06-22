@@ -1,5 +1,5 @@
 import React from "react";
-import IssueList from "./issueLIst/page";
+import IssueList from "./IssueList";
 import { useAppContext } from "@/context";
 
 export default function IssueLists() {

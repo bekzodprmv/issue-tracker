@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React from "react";
 import SearchIssues from "./SearchIssues";
 import Link from "next/link";
 import { useAppContext } from "@/context";

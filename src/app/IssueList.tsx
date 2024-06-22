@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
+import { useRouter } from "next/navigation";
 
 type issueListProps = {
   issue: {
@@ -13,6 +14,7 @@ type issueListProps = {
 };
 
 export default function IssueList({ issue, index }: issueListProps) {
+  const router = useRouter();
   const { colors } = useAppContext();
   const [timeDiff, setTimeDiff] = useState({ time: 0, unit: "seconds" });
 
@@ -53,10 +55,15 @@ export default function IssueList({ issue, index }: issueListProps) {
     setInterval(() => {
       calculateSpentTime(issue.date);
     }, 10000);
-  });
+  }, []);
 
   return (
-    <li className="border border-gray-400 mb-5 py-3 px-5 rounded-sm">
+    <li
+      onClick={() => {
+        router.push("/issue");
+      }}
+      className="border border-gray-400 mb-5 py-3 px-5 rounded-sm"
+    >
       <div>
         <h2 className="text-yellow-300 cursor-pointer text-lg font-semibold mr-2">
           {issue.title}

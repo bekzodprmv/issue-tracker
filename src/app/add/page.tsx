@@ -1,46 +1,16 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { useAppContext } from "@/context";
-// import { useRouter } from "next/navigation";
 
 export default function AddIssue() {
-  // const [title, setTitle] = useState<string>("");
-  // const [comment, setComment] = useState<string>("");
   const {
-    issues,
-    labels,
-    owners,
-    statuses,
-    randomNum,
-    setIssues,
     title,
     setTitle,
     comment,
     setComment,
     handleAddSubmit: handleSubmit,
   } = useAppContext();
-  // const router = useRouter();
-
-  // function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-  //   event.preventDefault();
-  //   setTitle("");
-  //   setComment("");
-
-  //   setIssues([
-  //     {
-  //       title,
-  //       comment,
-  //       date: new Date(),
-  //       label: labels[randomNum(labels)],
-  //       status: statuses[randomNum(statuses)],
-  //       owner: owners[randomNum(owners)],
-  //     },
-  //     ...issues,
-  //   ]);
-  //   router.push(`./`);
-  //   console.log({ issues });
-  // }
 
   return (
     <div className="bg-black border-t-yellow-400 w-3/4 mx-auto  mt-16">
@@ -85,15 +55,3 @@ export default function AddIssue() {
     </div>
   );
 }
-
-// setIssues([
-//   ...issues,
-//   {
-//     title: title,
-//     comment: comment,
-//     date: new Date(),
-//     label: labels[randomNum],
-//     status: statuses[randomNum],
-//     owner: owners[randomNum],
-//   },
-// ]);
