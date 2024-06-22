@@ -40,6 +40,7 @@ type Context = {
   setComment: Dispatch<SetStateAction<string>>;
   selectedIssue: CustomIssues;
   setSelectedIssue: Dispatch<SetStateAction<CustomIssues>>;
+  timeDiff: { time: number; unit: string };
   prevPage: () => void;
   nextPage: () => void;
   openIssueForm: () => void;
@@ -48,6 +49,7 @@ type Context = {
   handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   handleAddSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   randomNum: (option: string[]) => number;
+  calculateSpentTime: (date: Date) => void;
 };
 
 const labels: string[] = [
@@ -221,6 +223,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [selectedIssue, setSelectedIssue] = useState<CustomIssues>(
     {} as CustomIssues
   );
+  const [timeDiff, setTimeDiff] = useState({ time: 0, unit: "seconds" });
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
   const lastIndex = currentPage * recordsPerPage;
@@ -291,6 +294,23 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     setAddIssue(true);
   }
 
+  function calculateSpentTime(date: Date) {
+    const now = new Date();
+    const then = date;
+    const diff = now.getTime() - then.getTime();
+    const hours = Math.floor(diff / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    if (hours > 0) {
+      setTimeDiff({ time: hours, unit: "hours" });
+    } else if (minutes > 0) {
+      setTimeDiff({ time: minutes, unit: "minutes" });
+    } else {
+      setTimeDiff({ time: seconds, unit: "seconds" });
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -323,6 +343,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         handleAddSubmit,
         selectedIssue,
         setSelectedIssue,
+        calculateSpentTime,
+        timeDiff,
       }}
     >
       {children}

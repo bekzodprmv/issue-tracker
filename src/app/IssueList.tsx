@@ -19,8 +19,8 @@ type issueListProps = {
 
 export default function IssueList({ issue, index }: issueListProps) {
   const router = useRouter();
-  const { colors, setSelectedIssue } = useAppContext();
-  const [timeDiff, setTimeDiff] = useState({ time: 0, unit: "seconds" });
+  const { colors, setSelectedIssue, calculateSpentTime, timeDiff } =
+    useAppContext();
 
   let color: string = "";
   if (issue.label === "bug") {
@@ -40,22 +40,6 @@ export default function IssueList({ issue, index }: issueListProps) {
   }
 
   useEffect(() => {
-    function calculateSpentTime(date: Date) {
-      const now = new Date();
-      const then = date;
-      const diff = now.getTime() - then.getTime();
-      const hours = Math.floor(diff / 3600000);
-      const minutes = Math.floor((diff % 3600000) / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
-
-      if (hours > 0) {
-        setTimeDiff({ time: hours, unit: "hours" });
-      } else if (minutes > 0) {
-        setTimeDiff({ time: minutes, unit: "minutes" });
-      } else {
-        setTimeDiff({ time: seconds, unit: "seconds" });
-      }
-    }
     setInterval(() => {
       calculateSpentTime(issue.date);
     }, 10000);

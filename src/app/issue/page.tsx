@@ -78,6 +78,7 @@ export default function Home() {
                 </div>
               ))}
           </div>
+
           <div className="self-start flex flex-col gap-4">
             <Status issueStatus={selectedIssue.status} />
             <div className="border-y-[1px] flex items-center justify-between border-y-gray-100 py-4">
