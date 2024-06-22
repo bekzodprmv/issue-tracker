@@ -33,9 +33,14 @@ export default function Home() {
           </div>
           <SearchIssues />
           <IssueLists />
-          <div className="self-start">
+          <div className="self-start flex flex-col gap-4">
             <Status />
-            <Link href="./add" className="btn--big" onClick={openIssueForm}>
+            <div className="w-5/6 border self-center border-gray-50"></div>
+            <Link
+              href="./add"
+              className="btn--big w-full"
+              onClick={openIssueForm}
+            >
               Add Issue
             </Link>
           </div>

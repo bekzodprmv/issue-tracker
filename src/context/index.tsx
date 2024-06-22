@@ -195,8 +195,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       return a.status === e.target.value ? -1 : 1;
     });
     setCurrentPage(1);
-    setIssues(sortedIssues);
     setStatus(e.target.value);
+    setIssues(sortedIssues);
   }
 
   const prevPage = () => {

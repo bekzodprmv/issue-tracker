@@ -8,8 +8,7 @@ type LabelsProps = {
 };
 
 export default function Labels({ label, index, colors }: LabelsProps) {
-  const { labelSort, issues } = useAppContext();
-  // console.log(label);
+  const { labelSort } = useAppContext();
   return (
     <li
       onClick={() => labelSort(label)}
