@@ -19,25 +19,13 @@ type issueListProps = {
 
 export default function IssueList({ issue, index }: issueListProps) {
   const router = useRouter();
-  const { colors, setSelectedIssue, calculateSpentTime, timeDiff } =
-    useAppContext();
-
-  let color: string = "";
-  if (issue.label === "bug") {
-    color = colors[0];
-  } else if (issue.label === "feature") {
-    color = colors[1];
-  } else if (issue.label === "enhancement") {
-    color = colors[2];
-  } else if (issue.label === "question") {
-    color = colors[3];
-  } else if (issue.label === "help") {
-    color = colors[4];
-  } else if (issue.label === "wontfix") {
-    color = colors[5];
-  } else if (issue.label === "duplicate") {
-    color = colors[6];
-  }
+  const {
+    colors,
+    setSelectedIssue,
+    calculateSpentTime,
+    timeDiff,
+    defineColor,
+  } = useAppContext();
 
   useEffect(() => {
     setInterval(() => {
@@ -67,8 +55,8 @@ export default function IssueList({ issue, index }: issueListProps) {
           <span
             className=" border rounded-2xl p-1 py-0.5 text-sm ml-3 font-semibold"
             style={{
-              borderColor: color,
-              color: color,
+              borderColor: defineColor(issue.label),
+              color: defineColor(issue.label),
             }}
           >
             {issue.label}

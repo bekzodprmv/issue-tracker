@@ -7,23 +7,20 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
-  const { selectedIssue, colors, issues } = useAppContext();
+  const { selectedIssue, colors, issues, defineColor } = useAppContext();
 
   let color: string = "";
-  if (selectedIssue.label === "bug") {
-    color = colors[0];
-  } else if (selectedIssue.label === "feature") {
-    color = colors[1];
-  } else if (selectedIssue.label === "enhancement") {
-    color = colors[2];
-  } else if (selectedIssue.label === "question") {
-    color = colors[3];
-  } else if (selectedIssue.label === "help") {
+  if (
+    selectedIssue.status === "Done" ||
+    selectedIssue.status === "Todo" ||
+    selectedIssue.status === "In progress"
+  ) {
     color = colors[4];
-  } else if (selectedIssue.label === "wontfix") {
-    color = colors[5];
-  } else if (selectedIssue.label === "duplicate") {
-    color = colors[6];
+  } else if (
+    selectedIssue.status === "Backlog" ||
+    selectedIssue.status === "Cancelled"
+  ) {
+    color = colors[0];
   }
 
   return (
@@ -39,7 +36,7 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mb-3">{selectedIssue.title}</h2>
           <div className="flex items-center gap-3 text-[#aaaaaa]">
             <p
-              className="text-sm py-2 px-3 text-white rounded-3xl"
+              className="text-sm py-2 px-3 text-gray-100 rounded-3xl"
               style={{ backgroundColor: color }}
             >
               {selectedIssue.status}
@@ -92,7 +89,10 @@ export default function Home() {
               <ul className="mt-3  items-center justify-between flex flex-wrap gap-0.5 gap-y-2">
                 <p
                   className="cursor-pointer inline border rounded-2xl p-1 py-0.5 text-sm mx-0.5 font-semibold"
-                  style={{ borderColor: color, color: color }}
+                  style={{
+                    borderColor: defineColor(selectedIssue.label),
+                    color: defineColor(selectedIssue.label),
+                  }}
                 >
                   {selectedIssue.label}
                 </p>

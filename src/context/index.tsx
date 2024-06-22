@@ -50,6 +50,7 @@ type Context = {
   handleAddSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   randomNum: (option: string[]) => number;
   calculateSpentTime: (date: Date) => void;
+  defineColor: (label: string) => string;
 };
 
 const labels: string[] = [
@@ -311,6 +312,26 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     }
   }
 
+  function defineColor(label: string) {
+    let color: string = "";
+    if (label === "bug") {
+      color = colors[0];
+    } else if (label === "feature") {
+      color = colors[1];
+    } else if (label === "enhancement") {
+      color = colors[2];
+    } else if (label === "question") {
+      color = colors[3];
+    } else if (label === "help") {
+      color = colors[4];
+    } else if (label === "wontfix") {
+      color = colors[5];
+    } else if (label === "duplicate") {
+      color = colors[6];
+    }
+    return color;
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -345,6 +366,7 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
         setSelectedIssue,
         calculateSpentTime,
         timeDiff,
+        defineColor,
       }}
     >
       {children}
